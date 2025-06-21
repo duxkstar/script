@@ -1,0 +1,587 @@
+form1.cs
+
+
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace Overwatch2Colorbot
+{
+    public partial class Form1 : Form
+    {
+        private Aimbot aimbot;
+
+        public Form1()
+        {
+            InitializeComponent();
+            InitializeControls();
+            aimbot = new Aimbot();
+            aimbot.Start();
+        }
+
+        private void InitializeControls()
+        {
+            comboKey.DataSource = Enum.GetValues(typeof(Keys));
+            comboKey.SelectedItem = Config.AimbotKey;
+
+            comboColor.DataSource = Config.OW2Colors;
+            comboColor.SelectedItem = Config.OW2Colors[0];
+
+            comboTarget.SelectedItem = "Head";
+
+            sliderFOV.Value = Config.AimbotFOV;
+            sliderSmooth.Value = Config.Smoothness;
+        }
+
+        private void sliderFOV_Scroll(object sender, EventArgs e)
+        {
+            Config.AimbotFOV = sliderFOV.Value;
+        }
+
+        private void sliderSmooth_Scroll(object sender, EventArgs e)
+        {
+            Config.Smoothness = sliderSmooth.Value;
+        }
+
+        private void comboKey_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config.AimbotKey = (Keys)comboKey.SelectedItem;
+        }
+
+        private void comboColor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string colorName = comboColor.SelectedItem.ToString();
+            Config.SelectedColor = Config.GetColorFromName(colorName);
+        }
+
+        private void comboTarget_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config.TargetZone = comboTarget.SelectedItem.ToString();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            aimbot?.Stop();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+
+
+
+
+
+form1.designer.cs
+
+
+namespace Overwatch2Colorbot
+{
+    partial class Form1
+    {
+        private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.TrackBar sliderFOV;
+        private System.Windows.Forms.TrackBar sliderSmooth;
+        private System.Windows.Forms.ComboBox comboKey;
+        private System.Windows.Forms.ComboBox comboColor;
+        private System.Windows.Forms.ComboBox comboTarget;
+        private System.Windows.Forms.Label labelFOV;
+        private System.Windows.Forms.Label labelSmooth;
+        private System.Windows.Forms.Label labelKey;
+        private System.Windows.Forms.Label labelColor;
+        private System.Windows.Forms.Label labelTarget;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null)) components.Dispose();
+            base.Dispose(disposing);
+        }
+
+        private void InitializeComponent()
+        {
+            this.sliderFOV = new System.Windows.Forms.TrackBar();
+            this.sliderSmooth = new System.Windows.Forms.TrackBar();
+            this.comboKey = new System.Windows.Forms.ComboBox();
+            this.comboColor = new System.Windows.Forms.ComboBox();
+            this.comboTarget = new System.Windows.Forms.ComboBox();
+            this.labelFOV = new System.Windows.Forms.Label();
+            this.labelSmooth = new System.Windows.Forms.Label();
+            this.labelKey = new System.Windows.Forms.Label();
+            this.labelColor = new System.Windows.Forms.Label();
+            this.labelTarget = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.sliderFOV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sliderSmooth)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // sliderFOV
+            // 
+            this.sliderFOV.Location = new System.Drawing.Point(31, 41);
+            this.sliderFOV.Maximum = 300;
+            this.sliderFOV.Minimum = 100;
+            this.sliderFOV.Name = "sliderFOV";
+            this.sliderFOV.Size = new System.Drawing.Size(104, 45);
+            this.sliderFOV.TabIndex = 0;
+            this.sliderFOV.TickFrequency = 10;
+            this.sliderFOV.Value = 165;
+            this.sliderFOV.Scroll += new System.EventHandler(this.sliderFOV_Scroll);
+            // 
+            // sliderSmooth
+            // 
+            this.sliderSmooth.Location = new System.Drawing.Point(32, 108);
+            this.sliderSmooth.Maximum = 100;
+            this.sliderSmooth.Minimum = 1;
+            this.sliderSmooth.Name = "sliderSmooth";
+            this.sliderSmooth.Size = new System.Drawing.Size(104, 45);
+            this.sliderSmooth.TabIndex = 1;
+            this.sliderSmooth.TickFrequency = 5;
+            this.sliderSmooth.Value = 50;
+            this.sliderSmooth.Scroll += new System.EventHandler(this.sliderSmooth_Scroll);
+            // 
+            // comboKey
+            // 
+            this.comboKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboKey.DropDownWidth = 120;
+            this.comboKey.Location = new System.Drawing.Point(38, 176);
+            this.comboKey.Name = "comboKey";
+            this.comboKey.Size = new System.Drawing.Size(121, 20);
+            this.comboKey.TabIndex = 2;
+            this.comboKey.SelectedIndexChanged += new System.EventHandler(this.comboKey_SelectedIndexChanged);
+            // 
+            // comboColor
+            // 
+            this.comboColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboColor.DropDownWidth = 120;
+            this.comboColor.Location = new System.Drawing.Point(38, 236);
+            this.comboColor.Name = "comboColor";
+            this.comboColor.Size = new System.Drawing.Size(121, 20);
+            this.comboColor.TabIndex = 3;
+            this.comboColor.SelectedIndexChanged += new System.EventHandler(this.comboColor_SelectedIndexChanged);
+            // 
+            // comboTarget
+            // 
+            this.comboTarget.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboTarget.DropDownWidth = 120;
+            this.comboTarget.Items.AddRange(new object[] {
+            "Head",
+            "Body",
+            "Legs"});
+            this.comboTarget.Location = new System.Drawing.Point(38, 296);
+            this.comboTarget.Name = "comboTarget";
+            this.comboTarget.Size = new System.Drawing.Size(121, 20);
+            this.comboTarget.TabIndex = 4;
+            this.comboTarget.SelectedIndexChanged += new System.EventHandler(this.comboTarget_SelectedIndexChanged);
+            // 
+            // labelFOV
+            // 
+            this.labelFOV.AutoSize = true;
+            this.labelFOV.Location = new System.Drawing.Point(28, 21);
+            this.labelFOV.Name = "labelFOV";
+            this.labelFOV.Size = new System.Drawing.Size(72, 12);
+            this.labelFOV.TabIndex = 5;
+            this.labelFOV.Text = "Aimbot FOV";
+            // 
+            // labelSmooth
+            // 
+            this.labelSmooth.AutoSize = true;
+            this.labelSmooth.Location = new System.Drawing.Point(29, 89);
+            this.labelSmooth.Name = "labelSmooth";
+            this.labelSmooth.Size = new System.Drawing.Size(76, 12);
+            this.labelSmooth.TabIndex = 6;
+            this.labelSmooth.Text = "Smoothness";
+            // 
+            // labelKey
+            // 
+            this.labelKey.AutoSize = true;
+            this.labelKey.Location = new System.Drawing.Point(35, 156);
+            this.labelKey.Name = "labelKey";
+            this.labelKey.Size = new System.Drawing.Size(70, 12);
+            this.labelKey.TabIndex = 7;
+            this.labelKey.Text = "Aimbot Key";
+            // 
+            // labelColor
+            // 
+            this.labelColor.AutoSize = true;
+            this.labelColor.Location = new System.Drawing.Point(35, 216);
+            this.labelColor.Name = "labelColor";
+            this.labelColor.Size = new System.Drawing.Size(118, 12);
+            this.labelColor.TabIndex = 8;
+            this.labelColor.Text = "Target Outline Color";
+            // 
+            // labelTarget
+            // 
+            this.labelTarget.AutoSize = true;
+            this.labelTarget.Location = new System.Drawing.Point(35, 276);
+            this.labelTarget.Name = "labelTarget";
+            this.labelTarget.Size = new System.Drawing.Size(74, 12);
+            this.labelTarget.TabIndex = 9;
+            this.labelTarget.Text = "Target Zone";
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(409, 417);
+            this.Controls.Add(this.sliderFOV);
+            this.Controls.Add(this.sliderSmooth);
+            this.Controls.Add(this.comboKey);
+            this.Controls.Add(this.comboColor);
+            this.Controls.Add(this.comboTarget);
+            this.Controls.Add(this.labelFOV);
+            this.Controls.Add(this.labelSmooth);
+            this.Controls.Add(this.labelKey);
+            this.Controls.Add(this.labelColor);
+            this.Controls.Add(this.labelTarget);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.Name = "Form1";
+            this.Text = "OW2 Colorbot";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.sliderFOV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sliderSmooth)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+    }
+}
+
+
+
+
+
+
+Aimbot.cs
+
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
+
+namespace Overwatch2Colorbot
+{
+    public class Aimbot : IDisposable
+    {
+        private Thread botThread;
+        private CancellationTokenSource cts;
+
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(Keys vKey);
+
+        [DllImport("user32.dll")]
+        private static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, UIntPtr dwExtraInfo);
+
+        private const int MOUSEEVENTF_MOVE = 0x0001;
+
+        public Aimbot()
+        {
+            cts = new CancellationTokenSource();
+        }
+
+        public void Start()
+        {
+            if (botThread != null && botThread.IsAlive)
+                return;
+
+            botThread = new Thread(() => Run(cts.Token))
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.Highest
+            };
+            botThread.Start();
+        }
+
+        public void Stop()
+        {
+            if (cts != null && !cts.IsCancellationRequested)
+                cts.Cancel();
+
+            if (botThread != null && botThread.IsAlive)
+                botThread.Join();
+        }
+
+        private void Run(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                try
+                {
+                    if ((GetAsyncKeyState(Config.AimbotKey) & 0x8000) == 0)
+                    {
+                        Thread.Sleep(1);
+                        continue;
+                    }
+
+                    Rectangle screen = Screen.PrimaryScreen.Bounds;
+                    Point screenCenter = new Point(screen.Width / 2, screen.Height / 2);
+
+                    int fov = Config.AimbotFOV;
+                    Rectangle scanArea = new Rectangle(
+                        screenCenter.X - fov / 2,
+                        screenCenter.Y - fov / 2,
+                        fov, fov
+                    );
+
+                    List<Point> matchingPixels = new List<Point>();
+
+                    using (Bitmap bmp = new Bitmap(scanArea.Width, scanArea.Height))
+                    {
+                        using (Graphics g = Graphics.FromImage(bmp))
+                        {
+                            g.CopyFromScreen(scanArea.Location, Point.Empty, scanArea.Size);
+                        }
+
+                        for (int x = 0; x < bmp.Width; x += 2)
+                        {
+                            for (int y = 0; y < bmp.Height; y += 2)
+                            {
+                                Color px = bmp.GetPixel(x, y);
+
+                                if (!Utils.IsTargetColor(px))
+                                    continue;
+
+                                float yRatio = (float)y / bmp.Height;
+
+                                // Keep only pixels between 20% and 75% height (avoid feet and overhead text)
+                                if (yRatio < 0.20f || yRatio > 0.75f)
+                                    continue;
+
+                                matchingPixels.Add(new Point(x, y));
+                            }
+                        }
+
+                    }
+
+                    if (matchingPixels.Count > 0)
+                    {
+                        Point bestTarget = CalculateTargetPoint(matchingPixels, scanArea);
+                        float dx = bestTarget.X - (scanArea.Width / 2f);
+                        float dy = bestTarget.Y - (scanArea.Height / 2f);
+
+                        float smooth = Math.Max(0.000000000000000000000000000000000000001f, Config.Smoothness); // allow smoothness down to 0.02
+                        float moveX, moveY;
+
+                        if (smooth <= 0.05f)
+                        {
+                            // Full blatant snap instantly with no smoothing
+                            moveX = dx;
+                            moveY = dy;
+                        }
+                        else
+                        {
+                            // Smooth interpolation for legit feel
+                            moveX = dx / smooth;
+                            moveY = dy / smooth;
+                        }
+
+                        mouse_event(MOUSEEVENTF_MOVE, (int)Math.Round(moveX), (int)Math.Round(moveY), 0, UIntPtr.Zero);
+                    }
+                }
+                catch
+                {
+                    // optionally log exceptions here
+                }
+
+                Thread.Sleep(1);
+            }
+        }
+
+        private Point CalculateTargetPoint(List<Point> pixels, Rectangle scanArea)
+        {
+            List<List<Point>> clusters = GroupIntoClusters(pixels, 25);
+            Point scanCenter = new Point(scanArea.Width / 2, scanArea.Height / 2);
+
+            List<Point> bestCluster = null;
+            double bestDist = double.MaxValue;
+
+            foreach (var cluster in clusters)
+            {
+                Point center = GetClusterCenter(cluster);
+                double dist = Distance(center.X, center.Y, scanCenter.X, scanCenter.Y);
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    bestCluster = cluster;
+                }
+            }
+
+            if (bestCluster == null || bestCluster.Count == 0)
+                return scanCenter;
+
+            if (Config.TargetZone.ToLower() == "top")
+            {
+                Point top = bestCluster[0];
+                foreach (Point p in bestCluster)
+                    if (p.Y < top.Y) top = p;
+                return top;
+            }
+            else
+            {
+                return GetClusterCenter(bestCluster);
+            }
+        }
+
+        private List<List<Point>> GroupIntoClusters(List<Point> pixels, int maxDist)
+        {
+            List<List<Point>> clusters = new List<List<Point>>();
+
+            foreach (Point p in pixels)
+            {
+                bool added = false;
+                foreach (var cluster in clusters)
+                {
+                    foreach (Point cp in cluster)
+                    {
+                        if (Distance(p.X, p.Y, cp.X, cp.Y) < maxDist)
+                        {
+                            cluster.Add(p);
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (added) break;
+                }
+
+                if (!added)
+                    clusters.Add(new List<Point> { p });
+            }
+
+            return clusters;
+        }
+
+        private Point GetClusterCenter(List<Point> cluster)
+        {
+            int sumX = 0, sumY = 0;
+            foreach (var p in cluster)
+            {
+                sumX += p.X;
+                sumY += p.Y;
+            }
+            return new Point(sumX / cluster.Count, sumY / cluster.Count);
+        }
+
+        private double Distance(int x1, int y1, int x2, int y2)
+        {
+            int dx = x1 - x2;
+            int dy = y1 - y2;
+            return Math.Sqrt(dx * dx + dy * dy);
+        }
+
+        public void Dispose()
+        {
+            Stop();
+            cts?.Dispose();
+        }
+    }
+}
+
+
+
+
+utils.cs
+
+
+
+using System;
+using System.Drawing;
+
+namespace Overwatch2Colorbot
+{
+    public static class Utils
+    {
+        // Your original IsTargetColor method extended for red shade detection
+        public static bool IsTargetColor(Color px)
+        {
+            // Check if SelectedColor is red (exact match)
+            if (Config.SelectedColor.ToArgb() == Color.FromArgb(255, 60, 60).ToArgb())
+            {
+                // For red, check multiple red shades with tolerance
+                return IsRedShade(px);
+            }
+
+            // For all other colors, use your original exact matching logic
+            return px.ToArgb() == Config.SelectedColor.ToArgb();
+        }
+
+        // Added method: checks if px color is close to any known red shade (with tolerance)
+        private static bool IsRedShade(Color px)
+        {
+            Color[] redShades = new Color[]
+            {
+                Color.FromArgb(255, 60, 60),    // Close, no shield
+                Color.FromArgb(180, 30, 30),    // Far, no shield
+                Color.FromArgb(255, 120, 120),  // Close, with shield
+                Color.FromArgb(160, 70, 70)     // Far, with shield
+            };
+
+            foreach (var shade in redShades)
+            {
+                if (IsColorClose(px, shade, 30))  // tolerance = 30 (adjust if needed)
+                    return true;
+            }
+
+            return false;
+        }
+
+        // Added helper method: checks if two colors are within given tolerance for R,G,B
+        private static bool IsColorClose(Color c1, Color c2, int tolerance)
+        {
+            return Math.Abs(c1.R - c2.R) <= tolerance &&
+                   Math.Abs(c1.G - c2.G) <= tolerance &&
+                   Math.Abs(c1.B - c2.B) <= tolerance;
+        }
+
+        // You can keep all your other existing methods here, untouched!
+        // e.g. other color checks, utilities, etc.
+    }
+}
+
+
+
+
+config.cs
+
+
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace Overwatch2Colorbot
+{
+    public static class Config
+    {
+        public static int AimbotFOV = 165;
+        public static int Smoothness = 50;
+        public static Keys AimbotKey = Keys.XButton1;
+        public static Color SelectedColor = Color.FromArgb(255, 60, 60);
+        public static string TargetZone = "Head";
+
+        public static readonly string[] OW2Colors = new string[]
+        {
+            "Red", "Purple", "Green", "Blue", "Yellow"
+        };
+
+        public static Color GetColorFromName(string name)
+        {
+            switch (name.ToLower())
+            {
+                case "red": return Color.FromArgb(255, 60, 60);
+                case "purple": return Color.FromArgb(180, 60, 255);
+                case "green": return Color.FromArgb(60, 255, 60);
+                case "blue": return Color.FromArgb(60, 180, 255);
+                case "yellow": return Color.FromArgb(255, 255, 60);
+                default: return Color.FromArgb(255, 60, 60);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+now make this aimbot code have a max FOV of 10000  (actually detects that big of a range)
+also, when the aimbot is at the lowest value make the aimbot like 0 smoothing and 100% power leading to the best no lag no buggy no jittery full 100% accuracy tracking
